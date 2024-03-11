@@ -1,4 +1,4 @@
-name: Deploy Website
+name: Deploy HTML
 
 on:
   push:
@@ -13,32 +13,8 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
-    - name: Set Up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '14'
-
-    - name: Install Dependencies (Frontend)
-      working-directory: ./frontend
-      run: npm install
-
-    - name: Build Frontend
-      working-directory: ./frontend
-      run: npm run build
-
-    - name: Install Dependencies (Backend)
-      working-directory: ./backend
-      run: npm install
-
-  deploy:
-    runs-on: ubuntu-latest
-
-    needs: build
-
-    steps:
     - name: Deploy to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@3.7.1
+      uses: SyedJunnu/github-pages-deploy-action@3.7.1
       with:
         branch: gh-pages
-        folder: ./frontend/build
-
+        folder: /Sample-project-githubactions/frontend/index.html/
