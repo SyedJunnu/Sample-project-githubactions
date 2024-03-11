@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: Deploy Website
 
 on:
   push:
@@ -18,11 +18,17 @@ jobs:
       with:
         node-version: '14'
 
-    - name: Install Dependencies
+    - name: Install Dependencies (Frontend)
+      working-directory: ./frontend
       run: npm install
 
-    - name: Build
+    - name: Build Frontend
+      working-directory: ./frontend
       run: npm run build
+
+    - name: Install Dependencies (Backend)
+      working-directory: ./backend
+      run: npm install
 
   deploy:
     runs-on: ubuntu-latest
@@ -30,6 +36,9 @@ jobs:
     needs: build
 
     steps:
-    - name: Deploy to Hosting Service
-      # Add deployment steps here based on your hosting service
-      # For example, deploy to AWS S3, Azure, or GitHub Pages
+    - name: Deploy to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@3.7.1
+      with:
+        branch: gh-pages
+        folder: ./frontend/build
+
